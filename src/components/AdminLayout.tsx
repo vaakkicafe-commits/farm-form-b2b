@@ -43,7 +43,7 @@ const AdminLayout = () => {
         <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--border)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--secondary)', fontWeight: 800, fontSize: '1.25rem' }}>
             <Snowflake color="var(--primary)" size={24} />
-            Farm <span>Form</span> Admin
+            Lee Vaakki <span>Farm</span> Admin
           </div>
         </div>
         

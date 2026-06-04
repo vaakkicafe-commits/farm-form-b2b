@@ -37,7 +37,7 @@ function Login() {
             </div>
           </div>
           <h1 style={{ fontSize: '1.5rem', color: 'var(--secondary)', fontWeight: 800 }}>Admin Login</h1>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Sign in to manage Farm Form B2B catalogue</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Sign in to manage Lee Vaakki Farm B2B catalogue</p>
         </div>
 
         {error && (
@@ -54,7 +54,7 @@ function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', fontSize: '1rem' }}
-              placeholder="admin@farmform.com"
+              placeholder="admin@leevaakkifarm.com"
               required
             />
           </div>

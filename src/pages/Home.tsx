@@ -153,7 +153,7 @@ function Home() {
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <a href="#" className="logo">
               <Snowflake color="#0284c7" />
-              Farm <span>Form</span>
+              Lee Vaakki <span>Farm</span>
             </a>
             <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', marginTop: '-4px' }}>For Distributors & Retail Shops Only</span>
           </div>
@@ -172,7 +172,7 @@ function Home() {
             B2B Wholesale Catalogue
           </div>
           <h1 className="hero-title">
-            Farm-fresh frozen & prepped foods<br/> for <span>cafés, dhabas, QSRs,</span> and retail.
+            <span>Lee Vaakki Farm</span><br/> Premium frozen & ready‑to‑cook products for cafés, restaurants, and retail shops.
           </h1>
           <p className="section-subtitle">
             Premium quality frozen products supplied directly to your business. We currently supply to wholesale and city retail shops only. No minimum order constraints for self-pickup!
@@ -257,7 +257,7 @@ function Home() {
                   </div>
                   
                   <div className="product-action">
-                    <a href={`https://wa.me/917358096393?text=Hi Farm Form, I would like to enquire about wholesale pricing for ${product.name} (${product.cartonSize}).`} target="_blank" rel="noreferrer" className="btn-enquire">
+                    <a href={`https://wa.me/917358096393?text=Hi Lee Vaakki Farm, I would like to enquire about wholesale pricing for ${product.name} (${product.cartonSize}).`} target="_blank" rel="noreferrer" className="btn-enquire">
                       <MessageSquare size={18} /> Send Enquiry
                     </a>
                   </div>
