@@ -96,7 +96,6 @@ const CATEGORIES = ["All", "Fries & Potato", "Momos & Nuggets", "Breads & Parath
 function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [products, setProducts] = useState<B2BProduct[]>(FALLBACK_PRODUCTS);
-  const [loading, setLoading] = useState(true);
 
   // Enquiry Form State
   const [enquiry, setEnquiry] = useState({ name: '', shopName: '', phone: '', city: '', message: '' });
@@ -135,8 +134,6 @@ function Home() {
         }
       } catch (error) {
         console.error("Error fetching public products:", error);
-      } finally {
-        setLoading(false);
       }
     };
     fetchActiveProducts();

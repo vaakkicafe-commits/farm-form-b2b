@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { collection, getDocs, updateDoc, doc, query, orderBy } from 'firebase/firestore';
 import { db } from '../firebase';
-import { CheckCircle, Clock, Copy, MailX } from 'lucide-react';
+import { Copy, MailX } from 'lucide-react';
 
 export interface Enquiry {
   id?: string;
