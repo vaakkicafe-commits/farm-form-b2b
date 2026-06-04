@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, Mail, MapPin, Package, Truck, MessageSquare, Snowflake } from 'lucide-react';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 
 type B2BProduct = {
@@ -97,6 +97,28 @@ function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [products, setProducts] = useState<B2BProduct[]>(FALLBACK_PRODUCTS);
   const [loading, setLoading] = useState(true);
+
+  // Enquiry Form State
+  const [enquiry, setEnquiry] = useState({ name: '', shopName: '', phone: '', city: '', message: '' });
+  const [enquiryStatus, setEnquiryStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
+  const handleEnquirySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setEnquiryStatus('submitting');
+    try {
+      await addDoc(collection(db, 'enquiries'), {
+        ...enquiry,
+        createdAt: serverTimestamp(),
+        status: 'new'
+      });
+      setEnquiryStatus('success');
+      setEnquiry({ name: '', shopName: '', phone: '', city: '', message: '' });
+      setTimeout(() => setEnquiryStatus('idle'), 5000);
+    } catch (error) {
+      console.error("Error submitting enquiry:", error);
+      setEnquiryStatus('error');
+    }
+  };
 
   useEffect(() => {
     const fetchActiveProducts = async () => {
@@ -273,6 +295,59 @@ function Home() {
               <h3 className="info-title">3. Delivery Dispatch</h3>
               <p className="info-desc">Once your order is confirmed, we dispatch the frozen goods via our cold-chain network to your shop.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section" style={{ background: 'white' }}>
+        <div className="container" style={{ maxWidth: '800px' }}>
+          <h2 className="section-title">Quick Enquiry</h2>
+          <p className="section-subtitle">Need bulk pricing or have a specific requirement? Drop your details and our sales team will call you back.</p>
+          
+          <div style={{ background: '#f8fafc', padding: '2rem', borderRadius: '16px', border: '1px solid var(--border)', marginTop: '2rem' }}>
+            {enquiryStatus === 'success' ? (
+              <div style={{ textAlign: 'center', padding: '2rem', color: '#166534', background: '#dcfce7', borderRadius: '8px' }}>
+                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>Thank you!</h3>
+                <p>Your enquiry has been received. Our team will contact you shortly.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleEnquirySubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--secondary)' }}>Your Name *</label>
+                    <input required value={enquiry.name} onChange={(e) => setEnquiry({...enquiry, name: e.target.value})} style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)' }} placeholder="John Doe" />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--secondary)' }}>Shop / Business Name *</label>
+                    <input required value={enquiry.shopName} onChange={(e) => setEnquiry({...enquiry, shopName: e.target.value})} style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)' }} placeholder="My Cafe" />
+                  </div>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--secondary)' }}>Phone Number *</label>
+                    <input required type="tel" value={enquiry.phone} onChange={(e) => setEnquiry({...enquiry, phone: e.target.value})} style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)' }} placeholder="10-digit number" />
+                  </div>
+                  <div>
+                    <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--secondary)' }}>City / Area *</label>
+                    <input required value={enquiry.city} onChange={(e) => setEnquiry({...enquiry, city: e.target.value})} style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)' }} placeholder="e.g. Bangalore" />
+                  </div>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--secondary)' }}>What are you looking for? (Optional)</label>
+                  <textarea value={enquiry.message} onChange={(e) => setEnquiry({...enquiry, message: e.target.value})} style={{ width: '100%', padding: '0.75rem', borderRadius: '8px', border: '1px solid var(--border)', minHeight: '100px', resize: 'vertical' }} placeholder="e.g. I need 50 cartons of French Fries per month." />
+                </div>
+
+                {enquiryStatus === 'error' && (
+                  <div style={{ color: '#ef4444', fontSize: '0.875rem', fontWeight: 500 }}>Failed to submit enquiry. Please try again.</div>
+                )}
+
+                <button type="submit" disabled={enquiryStatus === 'submitting'} className="btn btn-primary" style={{ marginTop: '1rem', justifyContent: 'center' }}>
+                  {enquiryStatus === 'submitting' ? 'Submitting...' : 'Send Enquiry'}
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </section>
