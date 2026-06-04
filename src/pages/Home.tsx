@@ -7,12 +7,13 @@ type B2BProduct = {
   id: string;
   brand: string;
   name: string;
-  category: "Fries & Potato" | "Momos & Nuggets" | "Breads & Parathas" | "Ready-to-Fry Snacks" | "Sauces & Dips";
+  category: "Fries & Potato" | "Momos & Nuggets" | "Breads & Parathas" | "Ready-to-Fry Snacks" | "Sauces & Dips" | "Meats & Cold Cuts";
   packSize: string;
   cartonSize: string;
   moqCartons: number;
   suitableFor: string[];
   badge?: string;
+  imageUrl?: string;
 };
 
 // Fallback static products in case Firestore is empty or fails
@@ -88,10 +89,55 @@ const FALLBACK_PRODUCTS: B2BProduct[] = [
     cartonSize: "12 pouches",
     moqCartons: 1,
     suitableFor: ["QSR", "Cafes", "Street Food"]
+  },
+  {
+    id: "p8",
+    brand: "Lee Vaakki",
+    name: "Hickory Smoked Veal Strips",
+    category: "Meats & Cold Cuts",
+    packSize: "280g pack",
+    cartonSize: "20 packs",
+    moqCartons: 1,
+    suitableFor: ["Cafes", "Restaurants", "Delis"],
+    badge: "Premium Halal",
+    imageUrl: "/images/veal_strips.png"
+  },
+  {
+    id: "p9",
+    brand: "Lee Vaakki",
+    name: "Chicken Curry Cut Skinless",
+    category: "Meats & Cold Cuts",
+    packSize: "400g pack",
+    cartonSize: "15 packs",
+    moqCartons: 1,
+    suitableFor: ["Dhabas", "Restaurants", "Retail"],
+    imageUrl: "/images/chicken_curry_cut.png"
+  },
+  {
+    id: "p10",
+    brand: "Lee Vaakki",
+    name: "Popcorn Chicken",
+    category: "Ready-to-Fry Snacks",
+    packSize: "1.0 kg bag",
+    cartonSize: "6 bags",
+    moqCartons: 1,
+    suitableFor: ["QSR", "Cafes", "Food Trucks"],
+    imageUrl: "/images/popcorn_chicken.png"
+  },
+  {
+    id: "p11",
+    brand: "Lee Vaakki",
+    name: "Chicken Breast Strips",
+    category: "Ready-to-Fry Snacks",
+    packSize: "26 pieces pack",
+    cartonSize: "8 packs",
+    moqCartons: 1,
+    suitableFor: ["Cafes", "Burger Joints", "QSR"],
+    imageUrl: "/images/chicken_breast_strips.png"
   }
 ];
 
-const CATEGORIES = ["All", "Fries & Potato", "Momos & Nuggets", "Breads & Parathas", "Ready-to-Fry Snacks", "Sauces & Dips"];
+const CATEGORIES = ["All", "Fries & Potato", "Momos & Nuggets", "Breads & Parathas", "Ready-to-Fry Snacks", "Sauces & Dips", "Meats & Cold Cuts"];
 
 function Home() {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -224,10 +270,10 @@ function Home() {
                   )}
                   {/* Placeholder image using Unsplash, customized per category */}
                   <img 
-                    src={product.category.includes('Fries') ? 'https://images.unsplash.com/photo-1576107232684-1279f3908594?q=80&w=600' : 
+                    src={product.imageUrl || (product.category.includes('Fries') ? 'https://images.unsplash.com/photo-1576107232684-1279f3908594?q=80&w=600' : 
                          product.category.includes('Momos') ? 'https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?q=80&w=600' : 
                          product.category.includes('Breads') ? 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?q=80&w=600' :
-                         'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=600'} 
+                         'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?q=80&w=600')} 
                     alt={product.name} 
                     className="product-image" 
                   />
