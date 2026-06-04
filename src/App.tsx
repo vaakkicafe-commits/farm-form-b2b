@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Phone, Mail, MapPin, Package, Truck, MessageSquare, ChevronRight, Snowflake } from 'lucide-react';
+import { useState } from 'react';
+import { Phone, Mail, MapPin, Package, Truck, MessageSquare, Snowflake } from 'lucide-react';
 
 type B2BProduct = {
   id: string;
